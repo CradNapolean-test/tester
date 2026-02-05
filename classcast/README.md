@@ -65,3 +65,50 @@ Open the display at: <http://localhost:3000>
    - current exercise uses `(round - 1) % exerciseCount`
    - next-up exercise uses `round % exerciseCount`
    - coach and display should stay in sync each round.
+
+## Manifest format (strict)
+
+Repository manifests must use this exact block structure for every file:
+
+FILE: relative/path/to/file
+<<<
+(file contents exactly as-is)
+>>>
+
+Rules:
+- `FILE:` must start at column 1 and be exactly `FILE: <relative/path>`.
+- `<<<` must be exactly `<<<` on its own line.
+- `>>>` must be exactly `>>>` on its own line.
+- Each file block must contain exactly one opening `<<<` and one closing `>>>` marker.
+
+## Escaping marker-like content lines
+
+If a file needs a literal line that looks like a marker, escape it in the manifest:
+
+- `\FILE:` at line start becomes literal `FILE:` in file content.
+- `\<<<` becomes literal `<<<` in file content.
+- `\>>>` becomes literal `>>>` in file content.
+
+## Validate and apply manifests
+
+Validation only:
+
+```bash
+node .\apply-manifest.mjs --validate .\manifest.txt
+```
+
+PowerShell helper (works with Bypass):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\validate-manifest.ps1 -ManifestPath .\manifest.txt
+```
+
+Apply manifest:
+
+```bash
+node .\apply-manifest.mjs .\manifest.txt
+```
+
+## Common failure: inline `>>> FILE:`
+
+If a generator writes the block close marker and the next header on the same line (for example `>>> FILE: apps/...`), the parser cannot safely determine boundaries and must fail. Use strict marker lines plus validation before apply to prevent malformed manifests from being written or consumed.
