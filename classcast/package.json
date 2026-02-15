@@ -1,0 +1,13 @@
+{
+  "name": "classcast",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:coach": "npm --workspace apps/coach run start",
+    "dev:display": "npm --workspace apps/display run dev",
+    "build:display": "npm --workspace apps/display run build",
+    "lint": "npm --workspace apps/display run lint"
+  }
+}

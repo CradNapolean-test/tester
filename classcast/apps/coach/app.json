@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ClassCast Coach",
+    "slug": "classcast-coach",
+    "scheme": "classcast-coach",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": ["expo-router"]
+  }
+}
